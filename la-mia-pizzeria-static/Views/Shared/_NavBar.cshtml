@@ -1,0 +1,38 @@
+﻿<header>
+   
+    <nav class="navbar ms_navbar navbar-expand-lg">
+        <div class="ms_container">
+            <a class="navbar-brand" href="#">PizzaPazza</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="@activeLink("index") nav-link aria-current=" page"" asp-controller="Pizza" asp-action="Index">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="@activeLink("userindex") nav-link aria-current=" page"" asp-controller="Pizza" asp-action="UserIndex">User</a>
+                    </li>
+
+                </ul>
+            </div>
+        </div>
+    </nav>
+</header>
+
+
+@{
+    string activeLink(string name)
+    {
+        string routeName = "";
+        if (ViewContext.RouteData.Values["action"].ToString() != null)
+        {
+            routeName = ViewContext.RouteData.Values["action"].ToString();
+
+        }
+        if (name.ToLower() == routeName.ToLower())
+            return "ms_active";
+        return "";
+    }
+}

@@ -1,0 +1,27 @@
+﻿.layout {
+    min-width: 100%;
+    min-height: 100vh;
+    max-width: 100%;
+    max-height: 100vh;
+}
+.ms_navbar {
+    width: 100%;
+    height: var(--header-height);
+}
+
+footer {
+    height: var(--footer-height);
+    max-height: var(--footer-height)
+}
+
+.ms_main {
+    flex-grow:1;
+    display:flex;
+    justify-content:center;
+    align-items: center;
+}
+
+:root {
+    --header-height: 80px;
+    --footer-height: 60px;
+}

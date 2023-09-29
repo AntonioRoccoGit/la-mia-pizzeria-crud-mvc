@@ -1,0 +1,39 @@
+﻿@using la_mia_pizzeria_static.Models
+@model List<PizzaItem>
+
+<div class="wrapper  align-self-start">
+    @if(Model.Count < 1)
+    {
+        <h4 class="text-center mb-4 text-warning" >Mi dispiace nessun articolo presente!</h4>
+    }
+    else
+    {
+    <table class="table table-striped align-middle">
+        <thead>
+            <tr>
+                <th scope="col"></th>
+                <th scope="col">Nome</th>
+                <th scope="col">Descrizione</th>
+                <th scope="col">Prezzo</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (PizzaItem item in Model)
+            {
+                <tr>
+                    <th scope="row">
+                        <div class="rounded-4" style="height: 8vh; aspect-ratio: 3/2; overflow:hidden">
+                            <img src="@item.Thumbnail" style="max-width:100%;">
+                        </div>
+                    </th>
+                    <td>@item.Name</td>
+                    <td>@item.Description</td>
+                    <td>@item.GetStringPrice() €</td>
+                </tr>
+
+            }
+        </tbody>
+    </table>
+
+    }
+</div>
