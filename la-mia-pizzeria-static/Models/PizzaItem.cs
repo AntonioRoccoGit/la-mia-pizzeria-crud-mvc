@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using la_mia_pizzeria_static.ValidationAttributes;
+using Microsoft.EntityFrameworkCore;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -10,16 +11,17 @@ namespace la_mia_pizzeria_static.Models
         [Column("id")]
         public int PizzaItemId { get; set; }
 
-        [Column("name"), MaxLength(50)]
+        [Column("name"), MaxLength(50, ErrorMessage ="Lunghezza massima 50 caratteri")]
         public string Name { get; set; }
 
-        [Column("description"), MaxLength(255)]
+        [Column("description"), MaxLength(255, ErrorMessage = "Lunghezza massima 255 caratteri"), MoreThenFiveWords()]
         public string Description { get; set; }
 
-        [Column("thumbnail"), MaxLength(255), DefaultValue("ciaocome srtai")]
+        [Column("thumbnail"), MaxLength(255, ErrorMessage = "Lunghezza massima 255 caratteri")]
         public string Thumbnail { get; set; }
 
-        [Column("price")]
+        [Column("price")] 
+        [Range(1, 100, ErrorMessage ="Inserisci un prezzo valido")]
         public double Price { get; set; }
 
         public PizzaItem() { }

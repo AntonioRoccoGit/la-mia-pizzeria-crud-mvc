@@ -21,7 +21,7 @@
     }
     else
     {
-    <table class="table table-striped align-middle">
+    <table class="table table-striped align-middle text-center">
         <thead>
             <tr>
                 <th scope="col"></th>
@@ -37,14 +37,24 @@
                 <tr>
                     <th scope="row">
                         <div class="rounded-4" style="height: 8vh; aspect-ratio: 3/2; overflow:hidden">
-                            <img src="@item.Thumbnail" style="max-width:100%;">
+                            <img src="@item.Thumbnail" style="max-width:100%;min-height:100%;object-fit:cover">
                         </div>
                     </th>
                     <td>@item.Name</td>
                     <td>@item.Description</td>
                     <td>@item.GetStringPrice() €</td>
                     <td>
-                        
+                        <div class="d-flex justify-content-around">
+                            <a asp-controller="Pizza" asp-action="Edit" asp-route-id="@item.PizzaItemId" class="h-100 btn btn-warning">
+                                <i class="fa-solid fa-pencil"></i>
+                            </a>
+                            <form  asp-controller="Pizza" asp-action="Delete" asp-route-id="@item.PizzaItemId">
+                                @Html.AntiForgeryToken()
+                                <button class="btn btn-danger" type="submit">
+                                    <i class="fa-solid fa-trash"></i>
+                                </button>
+                            </form>
+                        </div>
                     </td>
                 </tr>
 

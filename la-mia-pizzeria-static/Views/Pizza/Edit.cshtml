@@ -1,10 +1,13 @@
 ﻿@model PizzaItem
 
-<form class="w-25" asp-controller="Pizza" asp-action="Create" method="post">
+<form class="w-25" asp-controller="Pizza" asp-action="Edit" asp-route-id="@Model.PizzaItemId" method="post">
     @Html.AntiForgeryToken()
     <div>
+        <!-- INPUT HIDDEN FOR ID -->
+        <input hidden asp-for="PizzaItemId" value="@Model.PizzaItemId" />
+
         <label asp-for="Name">Nome:</label>
-        <input type="text" asp-for="Name" class="d-block w-100" id="Name"/>
+        <input type="text" asp-for="Name" class="d-block w-100" id="Name" />
         <span asp-validation-for="Name" class="text-danger"></span>
     </div>
     <div class="mb-3">
@@ -14,7 +17,7 @@
     </div>
     <div class="mb-3">
         <label asp-for="Price">Prezzo:</label>
-        <input  asp-for="Price" class="d-block w-100" />
+        <input asp-for="Price" class="d-block w-100" />
         <span asp-validation-for="Price" class="text-danger"></span>
 
     </div>

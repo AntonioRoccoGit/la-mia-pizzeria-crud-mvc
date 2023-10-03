@@ -1,3 +1,7 @@
+using la_mia_pizzeria_static.Database;
+using la_mia_pizzeria_static.Interface;
+using la_mia_pizzeria_static.Services;
+
 namespace la_mia_pizzeria_static
 {
     public class Program
@@ -8,6 +12,7 @@ namespace la_mia_pizzeria_static
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
+            builder.Services.AddScoped<ILoggerMs, FileLogger>();
 
             var app = builder.Build();
 
@@ -28,7 +33,8 @@ namespace la_mia_pizzeria_static
 
             app.MapControllerRoute(
                 name: "default",
-                pattern: "{controller=Home}/{action=Index}/{id?}");
+                pattern: "{controller=Home}/{action=Index}/{id?}"
+                );
 
             app.Run();
         }
