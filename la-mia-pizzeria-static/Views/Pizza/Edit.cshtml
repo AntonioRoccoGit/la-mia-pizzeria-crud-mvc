@@ -1,32 +1,43 @@
-﻿@model PizzaItem
+﻿@model (PizzaItem item, List<Category> categories)
 
-<form class="w-25" asp-controller="Pizza" asp-action="Edit" asp-route-id="@Model.PizzaItemId" method="post">
+<form class="w-25" asp-controller="Pizza" asp-action="Edit" asp-route-id="@Model.item.PizzaItemId" method="post">
     @Html.AntiForgeryToken()
     <div>
         <!-- INPUT HIDDEN FOR ID -->
-        <input hidden asp-for="PizzaItemId" value="@Model.PizzaItemId" />
+        <input hidden asp-for="item.PizzaItemId" value="@Model.item.PizzaItemId" />
 
-        <label asp-for="Name">Nome:</label>
-        <input type="text" asp-for="Name" class="d-block w-100" id="Name" />
-        <span asp-validation-for="Name" class="text-danger"></span>
+        <label asp-for="item.Name">Nome:</label>
+        <input type="text" asp-for="item.Name" class="d-block w-100" id="Name" />
+        <span asp-validation-for="item.Name" class="text-danger"></span>
     </div>
     <div class="mb-3">
-        <label asp-for="Description">Inserisci una descrizione:</label>
-        <textarea asp-for="Description" class="d-block w-100" rows="5"></textarea>
-        <span asp-validation-for="Description" class="text-danger"></span>
+        <label asp-for="item.CategoryId">Categoria:</label>
+        <select asp-for="item.CategoryId" class="d-block w-100" rows="5">
+            <option>Scegli una categoria..</option>
+            @foreach(var category in Model.categories)
+            {
+                <option selected="@(category.CategoryId == Model.item.CategoryId)" value="@category.CategoryId">@category.Name</option>
+            }
+        </select>
+        <span asp-validation-for="item.CategoryId" class="text-danger"></span>
     </div>
     <div class="mb-3">
-        <label asp-for="Price">Prezzo:</label>
-        <input asp-for="Price" class="d-block w-100" />
-        <span asp-validation-for="Price" class="text-danger"></span>
+        <label asp-for="item.Description">Inserisci una descrizione:</label>
+        <textarea asp-for="item.Description" class="d-block w-100" rows="5"></textarea>
+        <span asp-validation-for="item.Description" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label asp-for="item.Price">Prezzo:</label>
+        <input asp-for="item.Price" class="d-block w-100" />
+        <span asp-validation-for="item.Price" class="text-danger"></span>
 
     </div>
     <div class="mb-3">
-        <label asp-for="Thumbnail">Link all'immagine</label>
-        <input type="text" asp-for="Thumbnail" class="d-block w-100" />
-        <span asp-validation-for="Thumbnail" class="text-danger"></span>
+        <label asp-for="item.Thumbnail">Link all'immagine</label>
+        <input type="text" asp-for="item.Thumbnail" class="d-block w-100" />
+        <span asp-validation-for="item.Thumbnail" class="text-danger"></span>
     </div>
     <div class="text-end">
-        <button type="submit" class="btn btn-small btn-info">Aggiungi</button>
+        <button type="submit" class="btn btn-small btn-info">Modifica</button>
     </div>
 </form>

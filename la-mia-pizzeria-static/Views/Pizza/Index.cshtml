@@ -26,6 +26,7 @@
             <tr>
                 <th scope="col"></th>
                 <th scope="col">Nome</th>
+                <th scope="col">Categoria</th>
                 <th scope="col">Descrizione</th>
                 <th scope="col">Prezzo</th>
                 <th scope="col">Action</th>
@@ -41,10 +42,14 @@
                         </div>
                     </th>
                     <td>@item.Name</td>
+                    <td>@(item.Category?.Name ?? "Nessuna categoria")</td>
                     <td>@item.Description</td>
                     <td>@item.GetStringPrice() €</td>
                     <td>
-                        <div class="d-flex justify-content-around">
+                        <div class="d-flex justify-content-evenly">
+                            <a asp-controller="Pizza" asp-action="PizzaDetails" asp-route-id="@item.PizzaItemId" class="h-100 btn btn-success">
+                                <i class="fa-solid fa-eye"></i>
+                            </a>
                             <a asp-controller="Pizza" asp-action="Edit" asp-route-id="@item.PizzaItemId" class="h-100 btn btn-warning">
                                 <i class="fa-solid fa-pencil"></i>
                             </a>

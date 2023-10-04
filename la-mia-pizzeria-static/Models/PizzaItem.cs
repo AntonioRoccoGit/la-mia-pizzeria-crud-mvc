@@ -6,6 +6,8 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace la_mia_pizzeria_static.Models
 {
+    [Table("pizzas")]
+
     public class PizzaItem
     {
         [Column("id")]
@@ -16,6 +18,10 @@ namespace la_mia_pizzeria_static.Models
 
         [Column("description"), MaxLength(255, ErrorMessage = "Lunghezza massima 255 caratteri"), MoreThenFiveWords()]
         public string Description { get; set; }
+
+        [Column("category_id")]
+        public int? CategoryId { get; set; }
+        public Category Category { get; set; }
 
         [Column("thumbnail"), MaxLength(255, ErrorMessage = "Lunghezza massima 255 caratteri")]
         public string Thumbnail { get; set; }

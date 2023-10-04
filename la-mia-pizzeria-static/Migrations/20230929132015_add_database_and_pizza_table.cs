@@ -5,7 +5,7 @@
 namespace la_mia_pizzeria_static.Migrations
 {
     /// <inheritdoc />
-    public partial class add_database_and_pizza_table : Migration
+    public partial class AddDatabaseAndPizzaTable : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

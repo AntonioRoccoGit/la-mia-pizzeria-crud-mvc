@@ -8,19 +8,19 @@ namespace la_mia_pizzeria_static.Controllers
     public class HomeController : Controller
     {
 
-        private ILoggerMs _logger;
+        private readonly ILoggerMs _logger;
         public HomeController(ILoggerMs log)
         {
             this._logger = log;
         }
         public IActionResult Index()
         {
-            List<PizzaItem> pizzas = new List<PizzaItem>();
-            using (PizzaContext db = new PizzaContext())
+            List<PizzaItem> pizzas = new();
+            using (PizzaContext db = new())
             {
                 pizzas = db.Pizzas.ToList<PizzaItem>();
             }
-            this._logger.Log("Ciao sono index");
+            this._logger.Log("Accesso pagina home/index");
             return View(pizzas);
         }
     }

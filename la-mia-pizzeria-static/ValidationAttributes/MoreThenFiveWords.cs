@@ -9,6 +9,7 @@ namespace la_mia_pizzeria_static.ValidationAttributes
             if (value is string)
             {
                 string inputValue = (string)value;
+                inputValue = inputValue.Trim();
 
                 if (inputValue == null || inputValue.Split(' ').Length < 5)
                 {

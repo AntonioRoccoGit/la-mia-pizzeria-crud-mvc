@@ -1,12 +1,13 @@
 ﻿using la_mia_pizzeria_static.Models;
 using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace la_mia_pizzeria_static.Database
 {
     public class PizzaContext : DbContext
     {
         public DbSet<PizzaItem> Pizzas { get; set; }
-
+        public DbSet<Category> Categories { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

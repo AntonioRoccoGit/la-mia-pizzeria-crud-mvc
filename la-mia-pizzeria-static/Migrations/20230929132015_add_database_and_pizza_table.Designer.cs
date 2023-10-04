@@ -12,7 +12,7 @@ namespace la_mia_pizzeria_static.Migrations
 {
     [DbContext(typeof(PizzaContext))]
     [Migration("20230929132015_add_database_and_pizza_table")]
-    partial class add_database_and_pizza_table
+    partial class AddDatabaseAndPizzaTable
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
