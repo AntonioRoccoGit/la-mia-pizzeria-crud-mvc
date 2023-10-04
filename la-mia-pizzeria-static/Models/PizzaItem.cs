@@ -21,7 +21,7 @@ namespace la_mia_pizzeria_static.Models
 
         [Column("category_id")]
         public int? CategoryId { get; set; }
-        public Category Category { get; set; }
+        public Category? Category { get; set; }
 
         [Column("thumbnail"), MaxLength(255, ErrorMessage = "Lunghezza massima 255 caratteri")]
         public string Thumbnail { get; set; }

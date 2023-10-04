@@ -4,6 +4,7 @@ using la_mia_pizzeria_static.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
+using System.Data;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace la_mia_pizzeria_static.Controllers
@@ -12,7 +13,7 @@ namespace la_mia_pizzeria_static.Controllers
     {
         private readonly ILoggerMs _logger;
 
-        private PizzaContext _db = new();
+        private readonly PizzaContext _db = new();
 
         public PizzaController(ILoggerMs logger)
         {
@@ -27,7 +28,7 @@ namespace la_mia_pizzeria_static.Controllers
 
         public IActionResult PizzaDetails(int id)
         {
-            PizzaItem pizza = _db.Pizzas.Find(id);
+            PizzaItem? pizza = _db.Pizzas.Find(id);
             
             if (pizza == null) 
                 return View("ProductNotFound");
@@ -39,6 +40,8 @@ namespace la_mia_pizzeria_static.Controllers
         [HttpGet]
         public IActionResult Create() 
         {
+            List<Category> categories = _db.Categories.ToList();
+            ViewData["categories"] = categories;
             return View("PizzaCreate");
         }
 
@@ -48,12 +51,14 @@ namespace la_mia_pizzeria_static.Controllers
           
             if(!ModelState.IsValid)
             {
+                List<Category> categories = _db.Categories.ToList();
+                ViewData["categories"] = categories;
                 return View("PizzaCreate",pizza);
             }
 
             
-                _db.Pizzas.Add(pizza);
-                _db.SaveChanges();
+            _db.Pizzas.Add(pizza);
+            _db.SaveChanges();
 
             _logger.Log($"Creata pizza id: {pizza.PizzaItemId}");
             return RedirectToAction("Index");
@@ -68,11 +73,11 @@ namespace la_mia_pizzeria_static.Controllers
                 _logger.Log($"Tentativovisualizzazione edit pizza id: {id} fallito");
                 return NotFound("Spiacenti, l'elemento selezionato non è stato trovato");
             }
-            List<Category> category = _db.Categories.ToList();
+            List<Category> categories = _db.Categories.ToList();
             
             (PizzaItem item, List<Category> cat) data;
             data.item = pizza;
-            data.cat = category;
+            data.cat = categories;
 
             _logger.Log($"Visualizzato edit per pizza id: {pizza.PizzaItemId}");
             return View(data);

@@ -8,6 +8,17 @@
         <span asp-validation-for="Name" class="text-danger"></span>
     </div>
     <div class="mb-3">
+        <label asp-for="CategoryId">Categoria:</label>
+        <select asp-for="CategoryId" class="d-block w-100" rows="5">
+            <option>Scegli una categoria..</option>
+            @foreach (var category in (List<Category>)ViewData["categories"])
+            {
+                <option value="@category.CategoryId">@category.Name</option>
+            }
+        </select>
+        <span asp-validation-for="CategoryId" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
         <label asp-for="Description">Inserisci una descrizione:</label>
         <textarea asp-for="Description" class="d-block w-100" rows="5"></textarea>
         <span asp-validation-for="Description" class="text-danger"></span>
