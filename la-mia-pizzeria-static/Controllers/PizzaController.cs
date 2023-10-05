@@ -1,6 +1,7 @@
 ﻿using la_mia_pizzeria_static.Database;
 using la_mia_pizzeria_static.Interface;
 using la_mia_pizzeria_static.Models;
+using la_mia_pizzeria_static.Models.FormModel;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
@@ -14,6 +15,7 @@ namespace la_mia_pizzeria_static.Controllers
         private readonly ILoggerMs _logger;
 
         private readonly PizzaContext _db = new();
+        
 
         public PizzaController(ILoggerMs logger)
         {
@@ -40,52 +42,53 @@ namespace la_mia_pizzeria_static.Controllers
         [HttpGet]
         public IActionResult Create() 
         {
+            PizzaFormModel model = new();
             List<Category> categories = _db.Categories.ToList();
-            ViewData["categories"] = categories;
+            model.Categories = categories;
             return View("PizzaCreate");
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(PizzaItem pizza) {
+        public IActionResult Create(PizzaFormModel model) {
           
             if(!ModelState.IsValid)
             {
                 List<Category> categories = _db.Categories.ToList();
-                ViewData["categories"] = categories;
-                return View("PizzaCreate",pizza);
+                model.Categories = categories;
+                return View("PizzaCreate", model);
             }
 
             
-            _db.Pizzas.Add(pizza);
+            _db.Pizzas.Add(model.Pizza);
             _db.SaveChanges();
 
-            _logger.Log($"Creata pizza id: {pizza.PizzaItemId}");
+            _logger.Log($"Creata pizza id: {model.Pizza.PizzaItemId}");
             return RedirectToAction("Index");
         }
 
         [HttpGet]
         public IActionResult Edit(int id)
         {
-            PizzaItem? pizza = _db.Pizzas.Find(id);
-            if (pizza == null)
+            PizzaFormModel model = new();
+            model.Pizza = _db.Pizzas.Find(id);
+            if (model.Pizza == null)
             {
                 _logger.Log($"Tentativovisualizzazione edit pizza id: {id} fallito");
                 return NotFound("Spiacenti, l'elemento selezionato non è stato trovato");
             }
-            List<Category> categories = _db.Categories.ToList();
+            model.Categories = _db.Categories.ToList();
             
-            (PizzaItem item, List<Category> cat) data;
-            data.item = pizza;
-            data.cat = categories;
+            
 
-            _logger.Log($"Visualizzato edit per pizza id: {pizza.PizzaItemId}");
-            return View(data);
+            _logger.Log($"Visualizzato edit per pizza id: {model.Pizza.PizzaItemId}");
+            return View(model);
         }
 
         [HttpPost]
-        public IActionResult Edit([Bind(Prefix = "Item1")]PizzaItem item, int id)
+        public IActionResult Edit(PizzaFormModel model, int id)
         {
+
             PizzaItem? pizzaToEdit = _db.Pizzas.Find(id);
             if (pizzaToEdit == null)
             {
@@ -94,7 +97,7 @@ namespace la_mia_pizzeria_static.Controllers
             }
 
             EntityEntry<PizzaItem> updatePizza = _db.Entry(pizzaToEdit);
-            updatePizza.CurrentValues.SetValues(item);
+            updatePizza.CurrentValues.SetValues(model.Pizza);
             _db.SaveChanges();
 
             _logger.Log($"Modificati dati di pizza id: {pizzaToEdit.PizzaItemId}");
