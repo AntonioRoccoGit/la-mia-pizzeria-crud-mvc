@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using la_mia_pizzeria_static.Database;
 
@@ -11,9 +12,11 @@ using la_mia_pizzeria_static.Database;
 namespace la_mia_pizzeria_static.Migrations
 {
     [DbContext(typeof(PizzaContext))]
-    partial class PizzaContextModelSnapshot : ModelSnapshot
+    [Migration("20231005131517_AddIngredientTable")]
+    partial class AddIngredientTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -34,7 +37,7 @@ namespace la_mia_pizzeria_static.Migrations
 
                     b.HasIndex("ingredientsId");
 
-                    b.ToTable("IngredientPizzaItem", (string)null);
+                    b.ToTable("IngredientPizzaItem");
                 });
 
             modelBuilder.Entity("la_mia_pizzeria_static.Models.Category", b =>
@@ -53,7 +56,7 @@ namespace la_mia_pizzeria_static.Migrations
 
                     b.HasKey("CategoryId");
 
-                    b.ToTable("category", (string)null);
+                    b.ToTable("category");
                 });
 
             modelBuilder.Entity("la_mia_pizzeria_static.Models.Ingredient", b =>
@@ -72,7 +75,7 @@ namespace la_mia_pizzeria_static.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("ingredient", (string)null);
+                    b.ToTable("ingredient");
                 });
 
             modelBuilder.Entity("la_mia_pizzeria_static.Models.PizzaItem", b =>
@@ -114,7 +117,7 @@ namespace la_mia_pizzeria_static.Migrations
 
                     b.HasIndex("CategoryId");
 
-                    b.ToTable("pizza", (string)null);
+                    b.ToTable("pizza");
                 });
 
             modelBuilder.Entity("IngredientPizzaItem", b =>

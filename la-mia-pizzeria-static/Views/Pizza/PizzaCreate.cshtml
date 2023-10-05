@@ -26,6 +26,27 @@
         </select>
         <span asp-validation-for="Pizza.CategoryId" class="text-danger"></span>
     </div>
+    <div asp-for="Pizza.Ingredients">Ingredienti:</div>
+    <div class="mb-3 d-flex flex-wrap gap-2">
+        
+        @if (Model.Ingredients != null)
+        {
+            foreach (var ingredient in Model.Ingredients)
+            {
+                    <input id="@ingredient.Text" class="btn-check" type="checkbox"
+                           name="SelectedIngredients" 
+                        value="@ingredient.Value" ) 
+                     />
+                    <label for="@ingredient.Text" class="btn">@ingredient.Text</label>
+                
+            }
+        }
+        else
+        {
+            <option value="">Categorie non disponibili</option>
+        }
+        <span asp-validation-for="Pizza.Ingredients" class="text-danger"></span>
+    </div>
     <div class="mb-3">
         <label asp-for="Pizza.Description">Inserisci una descrizione:</label>
         <textarea asp-for="Pizza.Description" class="d-block w-100" rows="5"></textarea>

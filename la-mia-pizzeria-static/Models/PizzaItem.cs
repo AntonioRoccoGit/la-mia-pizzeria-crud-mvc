@@ -6,7 +6,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace la_mia_pizzeria_static.Models
 {
-    [Table("pizzas")]
+    [Table("pizza")]
 
     public class PizzaItem
     {
@@ -19,16 +19,22 @@ namespace la_mia_pizzeria_static.Models
         [Column("description"), MaxLength(255, ErrorMessage = "Lunghezza massima 255 caratteri"), MoreThenFiveWords()]
         public string Description { get; set; }
 
-        [Column("category_id")]
-        public int? CategoryId { get; set; }
-        public Category? Category { get; set; }
-
         [Column("thumbnail"), MaxLength(255, ErrorMessage = "Lunghezza massima 255 caratteri")]
         public string Thumbnail { get; set; }
 
         [Column("price")] 
         [Range(1, 100, ErrorMessage ="Inserisci un prezzo valido")]
         public double Price { get; set; }
+      
+
+        //Relations
+        [Column("category_id")]
+        public int? CategoryId { get; set; }
+        public Category? Category { get; set; }
+
+
+        public List<Ingredient>? Ingredients { get; set; }
+
 
         public PizzaItem() { }
         public PizzaItem(string name, string description, string thumbnail, double price)
