@@ -2,6 +2,7 @@
 using la_mia_pizzeria_static.Interface;
 using la_mia_pizzeria_static.Models;
 using la_mia_pizzeria_static.Models.FormModel;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -11,6 +12,7 @@ using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace la_mia_pizzeria_static.Controllers
 {
+    [Authorize(Roles = "USER,ADMIN")]
     public class PizzaController : Controller
     {
         private readonly ILoggerMs _logger;
@@ -23,21 +25,11 @@ namespace la_mia_pizzeria_static.Controllers
             _logger = logger;
         }
 
+        [Authorize(Roles =null)]
         public IActionResult Index()
         {
             List<PizzaItem> pizzas = _db.Pizzas.Include(p => p.Category).ToList<PizzaItem>();
             return View(pizzas);
-        }
-
-        public IActionResult PizzaDetails(int id)
-        {
-            PizzaItem? pizza = _db.Pizzas.Find(id);
-            
-            if (pizza == null) 
-                return View("ProductNotFound");
-
-            _logger.Log($"Visualizzati dettagli pizza id {pizza.PizzaItemId}");
-            return View(pizza);
         }
 
         [HttpGet]

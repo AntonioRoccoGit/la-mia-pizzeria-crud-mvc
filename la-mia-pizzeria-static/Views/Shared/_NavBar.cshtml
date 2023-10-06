@@ -9,9 +9,15 @@
                     <li class="nav-item">
                         <a class="@activeLink("home") nav-link aria-current=" page"" asp-controller="Home" asp-action="Index">Home</a>
                     </li>
-                    <li class="nav-item">
+                @if (User.IsInRole("USER") || User.IsInRole("ADMIN"))
+                {
+                    
+                <li class="nav-item">
                         <a class="@activeLink("pizza") nav-link aria-current=" page"" asp-controller="Pizza" asp-action="Index">Dashboard</a>
-                    </li>
+                </li>
+                }
+                <partial name="_LoginPartial" />
+
                 </ul>
             </div>
         </div>
@@ -21,7 +27,7 @@
     string activeLink(string name)
     {
         string routeName = "";
-        if (ViewContext.RouteData.Values["controller"].ToString() != null)
+        if (ViewContext.RouteData.Values["controller"]?.ToString() != null)
         {
             routeName = ViewContext.RouteData.Values["controller"].ToString();
 
