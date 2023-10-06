@@ -29,15 +29,15 @@
     <div asp-for="Pizza.Ingredients">Ingredienti:</div>
     <div class="mb-3 d-flex flex-wrap gap-2">
         
-        @if (Model.Ingredients != null)
+        @if (Model.IngredientItem != null)
         {
-            foreach (var ingredient in Model.Ingredients)
+            foreach (var ingredient in Model.IngredientItem)
             {
-                    <input id="@ingredient.Text" class="btn-check" type="checkbox"
+                    <input id="@ingredient.Name" class="btn-check" type="checkbox"
                            name="SelectedIngredients" 
-                        value="@ingredient.Value" ) 
+                        value="@ingredient.Id" ) 
                      />
-                    <label for="@ingredient.Text" class="btn">@ingredient.Text</label>
+                    <label for="@ingredient.Name" class="btn">@ingredient.Name</label>
                 
             }
         }

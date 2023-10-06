@@ -45,16 +45,14 @@ namespace la_mia_pizzeria_static.Controllers
         {
             PizzaFormModel model = new();
             model.Categories = _db.Categories.ToList();
+            model.IngredientItem = new();
             List<Ingredient> ingredients = _db.Ingredients.ToList();
-            model.Ingredients = new();
+
             foreach(var item in ingredients)
             {
-                model.Ingredients.Add(new SelectListItem()
-                {
-                    Text = item.Name,
-                    Value = item.Id.ToString()
-                });
+                model.IngredientItem.Add(item);
             }
+
             return View("PizzaCreate", model);
         }
 
@@ -103,7 +101,7 @@ namespace la_mia_pizzeria_static.Controllers
             model.Categories = _db.Categories.ToList();
             model.IngredientItem = _db.Ingredients.ToList();
             if(model.Pizza.Ingredients  != null)
-                model.IngredientId = model.Pizza.Ingredients.Select(i => i.Id).ToList();
+                model.IngredientsId = model.Pizza.Ingredients.Select(i => i.Id).ToList();
             
 
             _logger.Log($"Visualizzato edit per pizza id: {model.Pizza.PizzaItemId}");
@@ -114,12 +112,28 @@ namespace la_mia_pizzeria_static.Controllers
         public IActionResult Edit(PizzaFormModel model, int id)
         {
 
-            PizzaItem? pizzaToEdit = _db.Pizzas.Find(id);
+            PizzaItem? pizzaToEdit = _db.Pizzas.Include(p => p.Ingredients).FirstOrDefault(p => p.PizzaItemId == id );
             if (pizzaToEdit == null)
             {
                 _logger.Log($"Tentativo modifica pizza id: {id} fallito");
                 return NotFound("Spiacenti, l'elemento selezionato non è stato trovato");
             }
+
+            if (model.SelectedIngredients != null)
+            {
+                pizzaToEdit.Ingredients?.Clear();
+
+                foreach (var item in model.SelectedIngredients)
+                {
+                    int ingredientId = int.Parse(item);
+                    Ingredient ingredient = _db.Ingredients.Find(ingredientId);
+                    if (ingredient != null && !pizzaToEdit.Ingredients.Contains(ingredient))
+                        pizzaToEdit.Ingredients.Add(ingredient);
+                }
+            }
+            else
+                pizzaToEdit.Ingredients?.Clear();
+            
 
             EntityEntry<PizzaItem> updatePizza = _db.Entry(pizzaToEdit);
             updatePizza.CurrentValues.SetValues(model.Pizza);

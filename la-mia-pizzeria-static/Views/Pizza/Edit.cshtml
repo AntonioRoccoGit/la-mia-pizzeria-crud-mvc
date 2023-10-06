@@ -36,7 +36,7 @@
             foreach (var ingredient in Model.IngredientItem)
             {
                 <input id="@ingredient.Name"
-                     @(Model.IngredientId?.Contains(ingredient.Id) == true ? "checked" : "")
+                     @(Model.IngredientsId?.Contains(ingredient.Id) == true ? "checked" : "")
                     class="btn-check" 
                     type="checkbox"
                     name="SelectedIngredients"
